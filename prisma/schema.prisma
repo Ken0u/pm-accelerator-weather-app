@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Location {
+  id        Int             @id @default(autoincrement())
+  name      String
+  query     String
+  latitude  Float
+  longitude Float
+  createdAt DateTime        @default(now())
+  weathers  WeatherRecord[]
+}
+
+model WeatherRecord {
+  id          Int      @id @default(autoincrement())
+  locationId  Int
+  location    Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  date        DateTime
+  temperature Float
+  feelsLike   Float
+  humidity    Int
+  pressure    Int
+  description String
+  icon        String
+  windSpeed   Float
+  createdAt   DateTime @default(now())
+}
